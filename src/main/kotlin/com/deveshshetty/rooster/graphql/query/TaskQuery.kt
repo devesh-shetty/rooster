@@ -33,7 +33,7 @@ class TaskQuery(@GraphQLIgnore private val taskService: TaskService) : Query {
                         .toList()
             }
 
-    fun task(id: Long) = taskService.getTaskById(id).body?.let {
+    fun task(id: Long) = taskService.getTaskById(id)?.let {
         Task(ID(it.id.toString()), it.title, it.description, Task.statusValue(it.status, it.dueDate, it.completedDate))
     }
 }
