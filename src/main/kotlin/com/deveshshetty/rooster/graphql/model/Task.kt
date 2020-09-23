@@ -1,6 +1,5 @@
 package com.deveshshetty.rooster.graphql.model
 
-import com.expediagroup.graphql.annotations.GraphQLIgnore
 import com.expediagroup.graphql.scalars.ID
 import java.time.LocalDate
 
@@ -27,11 +26,4 @@ data class Task(
         PENDING,
         DONE
     }
-
-    @GraphQLIgnore
-    val isPending: Boolean
-        get() = when (status) {
-            is Status.Pending -> true
-            is Status.Done -> false
-        }
 }
