@@ -40,7 +40,7 @@ tasks.withType<Test> {
 
 tasks.withType<KotlinCompile> {
 	kotlinOptions {
-		freeCompilerArgs = listOf("-Xjsr305=strict")
-		jvmTarget = "11"
-	}
+        freeCompilerArgs = listOf("-Xjsr305=strict", "-Xallow-result-return-type")
+        jvmTarget = "11"
+    }
 }

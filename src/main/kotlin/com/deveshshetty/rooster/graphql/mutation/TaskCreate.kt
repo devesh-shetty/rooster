@@ -37,8 +37,10 @@ class TaskCreate(@GraphQLIgnore private val taskService: TaskService) : Mutation
                 completedDate = completedDate
         )
 
-        return taskService.addTask(task).body?.let {
-            Task(ID(it.id.toString()), title, description, taskStatus)
-        } ?: throw Exception("Failed to save task")
+        return taskService.addTask(task)
+                .fold(
+                        onSuccess = { Task(ID(it.id.toString()), title, description, taskStatus) },
+                        onFailure = { throw Exception("Failed to save task due to ${it.message}") }
+                )
     }
 }
