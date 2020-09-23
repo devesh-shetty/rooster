@@ -13,11 +13,13 @@ data class Task(
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         val id: Long? = null,
         val title: String,
-        val description: String? = null,
+        val description: String,
         val status: Int,
         val startDate: LocalDate? = null,
         val dueDate: LocalDate? = null,
         val completedDate: LocalDate? = null,
         val createdAt: LocalDateTime? = LocalDateTime.now(),
         val updatedAt: LocalDateTime? = LocalDateTime.now()
-)
+) {
+    constructor() : this(id = null, title = "", description = "", status = -1)
+}

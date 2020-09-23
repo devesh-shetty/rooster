@@ -1,6 +1,8 @@
 package com.deveshshetty.rooster.graphql.mutation
 
 import com.deveshshetty.rooster.graphql.model.Task
+import com.deveshshetty.rooster.graphql.model.Task.Status.Done
+import com.deveshshetty.rooster.graphql.model.Task.Status.Pending
 import com.deveshshetty.rooster.service.TaskService
 import com.expediagroup.graphql.annotations.GraphQLIgnore
 import com.expediagroup.graphql.scalars.ID
@@ -17,12 +19,12 @@ class TaskCreate(@GraphQLIgnore private val taskService: TaskService) : Mutation
         val taskStatus: Task.Status
         when (status) {
             Task.StatusInput.PENDING -> {
-                taskStatus = Task.Status.Pending(date)
+                taskStatus = Pending(date)
                 dueDate = date
                 completedDate = null
             }
             Task.StatusInput.DONE -> {
-                taskStatus = Task.Status.Done(date)
+                taskStatus = Done(date)
                 dueDate = null
                 completedDate = date
             }
