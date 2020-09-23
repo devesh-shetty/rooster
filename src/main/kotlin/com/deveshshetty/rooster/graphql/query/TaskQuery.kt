@@ -1,13 +1,30 @@
 package com.deveshshetty.rooster.graphql.query
 
 import com.deveshshetty.rooster.graphql.model.Task
+import com.deveshshetty.rooster.graphql.model.Task.StatusInput.DONE
+import com.deveshshetty.rooster.graphql.model.Task.StatusInput.PENDING
+import com.deveshshetty.rooster.service.TaskService
+import com.expediagroup.graphql.annotations.GraphQLIgnore
 import com.expediagroup.graphql.scalars.ID
 import com.expediagroup.graphql.spring.operations.Query
 import org.springframework.stereotype.Component
-import java.time.LocalDate
 
 @Component
-class TaskQuery : Query {
-    fun tasks() = Task(id = ID("hello"), title = "hello", description = "yolo", status = Task.Status.Pending(date = LocalDate.now()))
-//    fun solo(task: Task) = Task(title = "hello", description = "yolo", status = Task.Status.Pending(date = LocalDate.now()))
+class TaskQuery(@GraphQLIgnore private val taskService: TaskService) : Query {
+    fun tasks(first: Int, pending: Boolean?): List<Task> = taskService.getTasks()
+            .asSequence()
+            .filter { task ->
+                pending?.let {
+                    if (it) {
+                        task.status == PENDING.ordinal
+                    } else {
+                        task.status == DONE.ordinal
+                    }
+                } ?: true
+            }
+            .take(first)
+            .map {
+                Task(ID(it.id.toString()), it.title, it.description, Task.statusValue(it.status, it.dueDate, it.completedDate))
+            }
+            .toList()
 }
