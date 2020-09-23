@@ -12,12 +12,12 @@ data class Task(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         val id: Long? = null,
-        val title: String,
-        val description: String,
-        val status: Int,
+        var title: String,
+        var description: String,
+        var status: Int,
         val startDate: LocalDate? = null,
-        val dueDate: LocalDate? = null,
-        val completedDate: LocalDate? = null,
+        var dueDate: LocalDate? = null,
+        var completedDate: LocalDate? = null,
         val createdAt: LocalDateTime? = LocalDateTime.now(),
         val updatedAt: LocalDateTime? = LocalDateTime.now()
 ) {
